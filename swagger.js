@@ -8,7 +8,12 @@ const options = {
       version: "1.0.0",
       description: "API to manage posts and tags"
     },
-    servers: [{ url: "http://localhost:5000" }],
+    servers: [
+      {
+        url: "https://ideausher-assignment-production.up.railway.app",
+        description: "Render Deployment",
+      },
+    ]
   },
   apis: ["./routes/*.js"]
 };
