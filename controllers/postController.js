@@ -1,6 +1,6 @@
 const Post = require("../models/Post");
 const Tag = require("../models/Tag");
-const cloudinary = require("../config/cloudinary");
+const { uploader } = require('../config/cloudinary');
 const { customPaginator } = require('../utils/commonUtils');
 
 exports.getAllPosts = async (req, res) => {
@@ -57,7 +57,17 @@ exports.createPost = async (req, res) => {
 
     // Upload Image
     if (req.file) {
-      const result = await cloudinary.uploader.upload(req.file.path);
+      const streamUpload = (buffer) => {
+        return new Promise((resolve, reject) => {
+          const stream = uploader.upload_stream((error, result) => {
+            if (result) return resolve(result);
+            reject(error);
+          });
+          stream.end(buffer);
+        });
+      };
+
+      const result = await streamUpload(req.file.buffer);
       imageUrl = result.secure_url;
     }
 

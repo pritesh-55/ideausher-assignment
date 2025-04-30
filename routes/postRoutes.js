@@ -1,7 +1,8 @@
 const express = require("express");
-const multer = require("multer");
 const router = express.Router();
-const upload = multer({ dest: "uploads/" });
+const multer = require("multer");
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 // Middlewares
 const schemaValidator = require("../utils/schemaValidator");
